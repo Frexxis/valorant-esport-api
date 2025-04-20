@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Valorant Esports API{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmNGE1NiIgZD0iTTEyLDFMMSwxM0gzLjY0QzMuODgsMTYuODYgNi4xOSwyMC4xMiA5LjA3LDIxLjU3TDEwLjIyLDIyLjI3Qy0wLDEzLDEsMCwxMiwxMi41Wk0yMi4zNiwxM0gyNEwxMywxSDEyQzEyLDEyLDEzLDEzLDIzLjA1LDIyLjNMMjMuODUsMjEuNThDMjAuODEsMjAuMTYgMjIuMTEsMTYuODggMjIuMzYsMTNaIiAvPjwvc3ZnPg==">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="me-2" style="vertical-align: -5px;">
+                    <path fill="#ff4a56" d="M12,1L1,13H3.64C3.88,16.86 6.19,20.12 9.07,21.57L10.22,22.27C-0,13,1,0,12,12.5ZM22.36,13H24L13,1H12C12,12,13,13,23.05,22.3L23.85,21.58C20.81,20.16 22.11,16.88 22.36,13Z" />
+                </svg>
+                Valorant Esports API
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/docs' %}active{% endif %}" href="/docs">Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/yourusername/valorant-esports-api" target="_blank">
+                            <i class="bi bi-github"></i> GitHub
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer bg-dark text-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Valorant Esports API</h5>
+                    <p>An API for accessing Valorant esports data, including match results, player statistics, and team information.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Resources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/docs" class="text-decoration-none">API Documentation</a></li>
+                        <li><a href="https://github.com/yourusername/valorant-esports-api" class="text-decoration-none">GitHub Repository</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Data Sources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.vlr.gg" target="_blank" class="text-decoration-none">VLR.gg</a></li>
+                        <li><a href="https://bo3.gg" target="_blank" class="text-decoration-none">BO3.gg</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p>This API is for educational purposes only. All match data belongs to their respective owners.</p>
+                <p>&copy; 2024 Valorant Esports API</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

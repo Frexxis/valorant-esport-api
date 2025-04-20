@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Valorant Esports API</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <style>
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+            height: calc(100vh - 4rem);
+        }
+        
+        .endpoint {
+            margin-bottom: 3rem;
+            padding-top: 2rem;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .method-get {
+            background-color: var(--bs-success);
+            color: white;
+        }
+        
+        code {
+            background-color: var(--bs-dark);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 85%;
+        }
+        
+        pre {
+            background-color: var(--bs-dark);
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        .param-table {
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+        
+        .param-required {
+            color: var(--bs-danger);
+            font-weight: bold;
+        }
+        
+        .param-optional {
+            color: var(--bs-info);
+        }
+        
+        .footer {
+            padding: 2rem 0;
+            background-color: var(--bs-dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Valorant Esports API</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/docs">Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/yourusername/valorant-esports-api" target="_blank">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Documentation Content -->
+    <div class="container py-5">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">API Endpoints</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <nav class="nav flex-column">
+                                <a class="nav-link" href="#introduction">Introduction</a>
+                                <a class="nav-link" href="#rate-limiting">Rate Limiting</a>
+                                <a class="nav-link" href="#players">Players</a>
+                                <a class="nav-link" href="#teams">Teams</a>
+                                <a class="nav-link" href="#matches">Matches</a>
+                                <a class="nav-link" href="#live-matches">Live Matches</a>
+                                <a class="nav-link" href="#upcoming-matches">Upcoming Matches</a>
+                                <a class="nav-link" href="#recent-matches">Recent Matches</a>
+                                <a class="nav-link" href="#events">Events</a>
+                                <a class="nav-link" href="#search">Search</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <h1>Valorant Esports API Documentation</h1>
+                
+                <!-- Introduction -->
+                <section id="introduction" class="mb-5">
+                    <h2>Introduction</h2>
+                    <p>The Valorant Esports API provides comprehensive data about the competitive Valorant scene, including teams, players, matches, and events. This API is powered by data from vlr.gg and bo3.gg, regularly updated to provide the most current information.</p>
+                    <p>All API endpoints return data in JSON format and use standard HTTP response codes to indicate the success or failure of requests.</p>
+                    <p><strong>Base URL:</strong> <code>https://valorant-esports-api.example.com/api</code></p>
+                </section>
+                
+                <!-- Rate Limiting -->
+                <section id="rate-limiting" class="mb-5">
+                    <h2>Rate Limiting</h2>
+                    <p>To ensure service stability, the API implements rate limiting. Each client is allowed a maximum of <strong>60 requests per minute</strong>. If you exceed this limit, you'll receive a <code>429 Too Many Requests</code> response.</p>
+                    <p>When rate limited, you should wait before making additional requests. The response will include information about when you can resume making requests.</p>
+                </section>
+                
+                <!-- Players -->
+                <section id="players" class="endpoint">
+                    <h2>Players</h2>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <span class="method method-get">GET</span>
+                            <code>/api/players</code> - List players
+                        </div>
+                        <div class="card-body">
+                            <p>Retrieves a list of players, with options for filtering and pagination.</p>
+                            
+                            <h5>Parameters</h5>
+                            <table class="table param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>team_id</td>
+                                        <td><span class="param-optional">Optional</span> string</td>
+                                        <td>Filter players by team ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>role</td>
+                                        <td><span class="param-optional">Optional</span> string</td>
+                                        <td>Filter players by role (e.g., "Duelist", "Controller")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>country</td>
+                                        <td><span class="param-optional">Optional</span> string</td>
+                                        <td>Filter players by country</td>
+                                    </tr>
+                                    <tr>
+                                        <td>limit</td>
+                                        <td><span class="param-optional">Optional</span> integer</td>
+                                        <td>Maximum number of results (default: 50)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>offset</td>
+                                        <td><span class="param-optional">Optional</span> integer</td>
+                                        <td>Number of results to skip (default: 0)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>Example Response</h5>
+                            <pre><code>[
+  {
+    "id": "tenz",
+    "name": "TenZ",
+    "team_id": "sentinels",
+    "role": "Duelist",
+    "country": "Canada",
+    "stats": { ... },
+    "last_updated": "2025-04-19T15:30:00Z"
+  },
+  ...
+]</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <span class="method method-get">GET</span>
+                            <code>/api/players/{player_id}</code> - Get player details
+                        </div>
+                        <div class="card-body">
+                            <p>Retrieves detailed information about a specific player.</p>
+                            
+                            <h5>Parameters</h5>
+                            <table class="table param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>player_id</td>
+                                        <td><span class="param-required">Required</span> string</td>
+                                        <td>The player's unique identifier</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>Example Response</h5>
+                            <pre><code>{
+  "id": "tenz",
+  "name": "TenZ",
+  "team_id": "sentinels",
+  "role": "Duelist",
+  "country": "Canada",
+  "stats": {
+    "rating": "1.24",
+    "acs": "267.5",
+    "kd_ratio": "1.3",
+    "headshot_percentage": "32%",
+    "...": "..."
+  },
+  "last_updated": "2025-04-19T15:30:00Z"
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Teams -->
+                <section id="teams" class="endpoint">
+                    <h2>Teams</h2>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <span class="method method-get">GET</span>
+                            <code>/api/teams</code> - List teams
+                        </div>
+                        <div class="card-body">
+                            <p>Retrieves a list of teams, with options for filtering and pagination.</p>
+                            
+                            <h5>Parameters</h5>
+                            <table class="table param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>region</td>
+                                        <td><span class="param-optional">Optional</span> string</td>
+                                        <td>Filter teams by region (e.g., "NA", "EU", "KR")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>limit</td>
+                                        <td><span class="param-optional">Optional</span> integer</td>
+                                        <td>Maximum number of results (default: 50)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>offset</td>
+                                        <td><span class="param-optional">Optional</span> integer</td>
+                                        <td>Number of results to skip (default: 0)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>Example Response</h5>
+                            <pre><code>[
+  {
+    "id": "sentinels",
+    "name": "Sentinels",
+    "region": "NA",
+    "logo_url": "https://example.com/images/sentinels.png",
+    "stats": { ... },
+    "last_updated": "2025-04-19T15:30:00Z"
+  },
+  ...
+]</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <span class="method method-get">GET</span>
+                            <code>/api/teams/{team_id}</code> - Get team details
+                        </div>
+                        <div class="card-body">
+                            <p>Retrieves detailed information about a specific team, including its roster if requested.</p>
+                            
+                            <h5>Parameters</h5>
+                            <table class="table param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>team_id</td>
+                                        <td><span class="param-required">Required</span> string</td>
+                                        <td>The team's unique identifier</td>
+                                    </tr>
+                                    <tr>
+                                        <td>include_players</td>
+                                        <td><span class="param-optional">Optional</span> boolean</td>
+                                        <td>Whether to include the team's roster (default: true)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>refresh</td>
+                                        <td><span class="param-optional">Optional</span> boolean</td>
+                                        <td>Force refresh team data from source (default: false)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>Example Response</h5>
+                            <pre><code>{
+  "id": "sentinels",
+  "name": "Sentinels",
+  "region": "NA",
+  "logo_url": "https://example.com/images/sentinels.png",
+  "stats": {
+    "win_rate": "65%",
+    "map_win_rate": "70%",
+    "...": "..."
+  },
+  "players": [
+    {
+      "id": "tenz",
+      "name": "TenZ",
+      "role": "Duelist",
+      "country": "Canada"
+    },
+    ...
+  ],
+  "last_updated": "2025-04-19T15:30:00Z"
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Matches -->
+                <section id="matches" class="endpoint">
+                    <h2>Matches</h2>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <span class="method method-get">GET</span>
+                            <code>/api/matches</code> - List matches
+                        </div>
+                        <div class="card-body">
+                            <p>Retrieves a list of matches, with options for filtering and pagination.</p>
+                            
+                            <h5>Parameters</h5>
+                            <table class="table param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>team_id</td>
+                                        <td><span class="param-optional">Optional</span> string</td>
+                                        <td>Filter matches by team ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>status</td>
+                                        <td><span class="param-optional">Optional</span> string</td>
+                                        <td>Filter by match status (upcoming, live, completed)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>event</td>
+                                        <td><span class="param-optional">Optional</span> string</td>
+                                        <td>Filter matches by event name (partial match)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>limit</td>
+                                        <td><span class="param-optional">Optional</span> integer</td>
+                                        <td>Maximum number of results (default: 50)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>offset</td>
+                                        <td><span class="param-optional">Optional</span> integer</td>
+                                        <td>Number of results to skip (default: 0)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>Example Response</h5>
+                            <pre><code>[
+  {
+    "id": "459543",
+    "team1_id": "sentinels",
+    "team2_id": "2game-esports",
+    "team1": {
+      "id": "sentinels",
+      "name": "Sentinels"
+    },
+    "team2": {
+      "id": "2game-esports",
+      "name": "2Game Esports"
+    },
+    "date": "2025-04-19T17:00:00Z",
+    "event_name": "VCT Americas 2025",
+    "status": "live",
+    "score": "1-0",
+    "match_url": "https://www.vlr.gg/459543",
+    "last_updated": "2025-04-19T17:15:00Z"
+  },
+  ...
+]</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <span class="method method-get">GET</span>
+                            <code>/api/matches/{match_id}</code> - Get match details
+                        </div>
+                        <div class="card-body">
+                            <p>Retrieves detailed information about a specific match, including map statistics if requested.</p>
+                            
+                            <h5>Parameters</h5>
+                            <table class="table param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>match_id</td>
+                                        <td><span class="param-required">Required</span> string</td>
+                                        <td>The match's unique identifier</td>
+                                    </tr>
+                                    <tr>
+                                        <td>include_maps</td>
+                                        <td><span class="param-optional">Optional</span> boolean</td>
+                                        <td>Whether to include map statistics (default: true)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>Example Response</h5>
+                            <pre><code>{
+  "id": "459543",
+  "team1_id": "sentinels",
+  "team2_id": "2game-esports",
+  "team1": {
+    "id": "sentinels",
+    "name": "Sentinels",
+    "logo_url": "https://example.com/images/sentinels.png"
+  },
+  "team2": {
+    "id": "2game-esports",
+    "name": "2Game Esports",
+    "logo_url": "https://example.com/images/2game.png"
+  },
+  "date": "2025-04-19T17:00:00Z",
+  "event_name": "VCT Americas 2025",
+  "status": "live",
+  "score": "1-0",
+  "match_url": "https://www.vlr.gg/459543",
+  "maps": [
+    {
+      "map_name": "Ascent",
+      "team1_score": 13,
+      "team2_score": 8,
+      "team1_attack": 7,
+      "team1_defense": 6,
+      "team2_attack": 5,
+      "team2_defense": 3,
+      "player_stats": {
+        "TenZ": {
+          "agent": "Jett",
+          "kills": 25,
+          "deaths": 14,
+          "assists": 3,
+          "acs": 290
+        },
+        ...
+      }
+    },
+    ...
+  ],
+  "last_updated": "2025-04-19T17:45:00Z"
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Live Matches -->
+                <section id="live-matches" class="endpoint">
+                    <h2>Live Matches</h2>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <span class="method method-get">GET</span>
+                            <code>/api/matches/live</code> - Get live matches
+                        </div>
+                        <div class="card-body">
+                            <p>Retrieves a list of currently live matches.</p>
+                            
+                            <h5>Parameters</h5>
+                            <p>No parameters required.</p>
+                            
+                            <h5>Example Response</h5>
+                            <pre><code>[
+  {
+    "id": "459543",
+    "team1_id": "sentinels",
+    "team2_id": "2game-esports",
+    "team1": {
+      "id": "sentinels",
+      "name": "Sentinels"
+    },
+    "team2": {
+      "id": "2game-esports",
+      "name": "2Game Esports"
+    },
+    "date": "2025-04-19T17:00:00Z",
+    "event_name": "VCT Americas 2025",
+    "status": "live",
+    "score": "1-0",
+    "match_url": "https://www.vlr.gg/459543",
+    "last_updated": "2025-04-19T17:15:00Z"
+  },
+  ...
+]</code></pre>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Upcoming Matches -->
+                <section id="upcoming-matches" class="endpoint">
+                    <h2>Upcoming Matches</h2>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <span class="method method-get">GET</span>
+                            <code>/api/matches/upcoming</code> - Get upcoming matches
+                        </div>
+                        <div class="card-body">
+                            <p>Retrieves a list of upcoming matches, ordered by the closest start time first.</p>
+                            
+                            <h5>Parameters</h5>
+                            <table class="table param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>limit</td>
+                                        <td><span class="param-optional">Optional</span> integer</td>
+                                        <td>Maximum number of results (default: 10)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>Example Response</h5>
+                            <pre><code>[
+  {
+    "id": "458832",
+    "team1_id": "drx",
+    "team2_id": "gen-g",
+    "team1": {
+      "id": "drx",
+      "name": "DRX"
+    },
+    "team2": {
+      "id": "gen-g",
+      "name": "Gen.G"
+    },
+    "date": "2025-04-20T04:00:00Z",
+    "event_name": "VCT Pacific 2025",
+    "status": "upcoming",
+    "score": "TBD",
+    "match_url": "https://www.vlr.gg/458832",
+    "last_updated": "2025-04-19T15:00:00Z"
+  },
+  ...
+]</code></pre>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Recent Matches -->
+                <section id="recent-matches" class="endpoint">
+                    <h2>Recent Matches</h2>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <span class="method method-get">GET</span>
+                            <code>/api/matches/recent</code> - Get recent matches
+                        </div>
+                        <div class="card-body">
+                            <p>Retrieves a list of recently completed matches, ordered by the most recent first.</p>
+                            
+                            <h5>Parameters</h5>
+                            <table class="table param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>limit</td>
+                                        <td><span class="param-optional">Optional</span> integer</td>
+                                        <td>Maximum number of results (default: 10)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>Example Response</h5>
+                            <pre><code>[
+  {
+    "id": "459581",
+    "team1_id": "rvn",
+    "team2_id": "fraggerz",
+    "team1": {
+      "id": "rvn",
+      "name": "RvN"
+    },
+    "team2": {
+      "id": "fraggerz",
+      "name": "Fraggerz"
+    },
+    "date": "2025-04-19T15:45:00Z",
+    "event_name": "VCT Game Changers EMEA 2025",
+    "status": "completed",
+    "score": "2-0",
+    "match_url": "https://www.vlr.gg/459581",
+    "last_updated": "2025-04-19T17:30:00Z"
+  },
+  ...
+]</code></pre>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Events -->
+                <section id="events" class="endpoint">
+                    <h2>Events</h2>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <span class="method method-get">GET</span>
+                            <code>/api/events</code> - List events
+                        </div>
+                        <div class="card-body">
+                            <p>Retrieves a list of current and upcoming Valorant esports events.</p>
+                            
+                            <h5>Parameters</h5>
+                            <table class="table param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>limit</td>
+                                        <td><span class="param-optional">Optional</span> integer</td>
+                                        <td>Maximum number of results (default: 10)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>Example Response</h5>
+                            <pre><code>[
+  {
+    "id": "2025-vct-americas",
+    "name": "VCT Americas 2025",
+    "date": "Apr 15 - May 30, 2025",
+    "region": "North America",
+    "event_url": "https://www.vlr.gg/event/2025-vct-americas"
+  },
+  ...
+]</code></pre>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Search -->
+                <section id="search" class="endpoint">
+                    <h2>Search</h2>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <span class="method method-get">GET</span>
+                            <code>/api/search/teams</code> - Search teams
+                        </div>
+                        <div class="card-body">
+                            <p>Searches for teams matching the provided query.</p>
+                            
+                            <h5>Parameters</h5>
+                            <table class="table param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>q</td>
+                                        <td><span class="param-required">Required</span> string</td>
+                                        <td>Search query (minimum 2 characters)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>Example Response</h5>
+                            <pre><code>[
+  {
+    "id": "sentinels",
+    "name": "Sentinels",
+    "region": "NA",
+    "logo_url": "https://example.com/images/sentinels.png"
+  },
+  {
+    "id": "sentinels-academy",
+    "name": "Sentinels Academy",
+    "region": "NA",
+    "logo_url": "https://example.com/images/sentinels-academy.png"
+  },
+  ...
+]</code></pre>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <p>© 2025 Valorant Esports API. Data sourced from vlr.gg and bo3.gg.</p>
+            <p>This API is not affiliated with or endorsed by Riot Games.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

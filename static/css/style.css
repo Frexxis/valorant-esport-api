@@ -1,0 +1,89 @@
+/* Custom styles for Valorant Esports API */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 56px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+}
+
+.footer {
+    margin-top: auto;
+    padding: 20px 0;
+}
+
+.jumbotron {
+    background-color: var(--bs-dark);
+    color: white;
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: 2rem 1rem;
+}
+
+.endpoint {
+    border-left: 4px solid var(--bs-info);
+    padding-left: 15px;
+    margin-bottom: 30px;
+}
+
+.endpoint-url {
+    font-family: monospace;
+    background: var(--bs-dark);
+    padding: 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.method {
+    font-weight: bold;
+    margin-right: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background-color: var(--bs-primary);
+    color: white;
+}
+
+.param {
+    background-color: var(--bs-dark);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 5px;
+    font-family: monospace;
+}
+
+.code-block {
+    background-color: var(--bs-dark);
+    padding: 15px;
+    border-radius: 4px;
+    font-family: monospace;
+    position: relative;
+    overflow-x: auto;
+}
+
+.code-block pre {
+    margin-bottom: 0;
+    color: var(--bs-light);
+}
+
+.copy-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 12px;
+    padding: 2px 6px;
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--bs-primary);
+}
+
+.header-img {
+    max-width: 100%;
+    height: auto;
+}
